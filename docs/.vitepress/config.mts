@@ -1,7 +1,13 @@
 import { defineConfig } from 'vitepress'
 import footnote from 'markdown-it-footnote'
+import { 
+  GitChangelog, 
+  GitChangelogMarkdownSection, 
+} from '@nolebase/vitepress-plugin-git-changelog/vite'
+
 export default defineConfig({
   vite: { 
+    
     optimizeDeps: {
       exclude: [ 
         '@nolebase/vitepress-plugin-enhanced-readabilities/client', 
@@ -16,6 +22,13 @@ export default defineConfig({
         '@nolebase/ui', 
       ], 
     }, 
+    plugins: [ 
+      GitChangelog({ 
+        // 填写在此处填写您的仓库链接
+        repoURL: () => 'https://github.com/ChisakaKanako/aboutTrans', 
+      }), 
+      GitChangelogMarkdownSection(), 
+    ],
   }, 
   locales: {
     root: {

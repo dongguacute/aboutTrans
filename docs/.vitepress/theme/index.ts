@@ -1,6 +1,11 @@
 import DefaultTheme from 'vitepress/theme'
 import type { Theme as ThemeConfig } from 'vitepress'
 import { h } from 'vue'
+import { 
+  NolebaseGitChangelogPlugin 
+} from '@nolebase/vitepress-plugin-git-changelog/client'
+
+import '@nolebase/vitepress-plugin-git-changelog/client/style.css'
 import './style.css'
 import { 
     NolebaseEnhancedReadabilitiesMenu, 
@@ -17,8 +22,9 @@ export const Theme: ThemeConfig = {
         'nav-screen-content-after': () => h(NolebaseEnhancedReadabilitiesScreenMenu), 
       })
     },
-    enhanceApp() {
+    enhanceApp({app}) {
       // 其他的配置...
+      app.use(NolebaseGitChangelogPlugin)  
     },
 }
 export default Theme
