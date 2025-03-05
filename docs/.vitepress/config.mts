@@ -89,9 +89,16 @@ export default defineConfig({
       prev: '上一页',
       next: '下一页',
     },
+    editLink: {
+      text: '在 GitHub 上编辑此页',
+      pattern: 'https://github.com/ChisakaKanako/aboutTrans/blob/main/docs/:path'
+    },
     nav: [
       { text: '主页', link: '/' },
       { text: '关于我们', link: 'about' }
+    ],
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/ChisakaKanako/aboutTrans' }
     ],
     sidebar: [
       {
