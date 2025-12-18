@@ -45,7 +45,7 @@ function handleClick() {
 
 <style scoped>
 .share-button {
-  background: var(--vp-c-bg);
+  background: var(--vp-c-bg-soft);
   border: 1px solid var(--vp-c-divider);
   color: var(--vp-c-text-2);
   cursor: pointer;
