@@ -56,6 +56,8 @@ const injectButtonToH2 = (h2: HTMLHeadingElement) => {
 }
 
 const scanAndInject = () => {
+  if (!route.path.startsWith('/docs/')) return
+
   // Try multiple selectors for better compatibility
   const doc = document.querySelector('.vp-doc') || 
               document.querySelector('.VPDoc') || 
@@ -124,7 +126,7 @@ watch(() => route.path, () => {
 .share-btn-injected {
   cursor: pointer;
   margin-left: 8px;
-  opacity: 0;
+  opacity: 1;
   transition: all 0.2s;
   display: inline-flex;
   align-items: center;
@@ -139,6 +141,5 @@ h2:hover .share-btn-injected {
 
 .share-btn-injected:hover {
   opacity: 1;
-  transform: scale(1.1);
 }
 </style>

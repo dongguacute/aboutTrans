@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, watch, nextTick } from 'vue'
+import { ref, reactive, watch, nextTick, onUnmounted } from 'vue'
 import { shareState, closeShare } from './shareState'
 import { useData } from 'vitepress'
 
@@ -11,6 +11,10 @@ const state = reactive({
 })
 
 watch(() => shareState.isOpen, async (val) => {
+  if (typeof window !== 'undefined') {
+    document.body.style.overflow = val ? 'hidden' : ''
+  }
+
   if (val && shareState.url) {
     try {
       const QRCode = await import('qrcode')
@@ -46,7 +50,7 @@ const handleDownload = async () => {
     
     // Using snapdom to download
     await snapdom.download(cardRef.value, {
-      filename: `share-${Date.now()}`,
+      filename: `${shareState.title}｜aboutTrans`,
       scale: 2, // High res
     })
   } catch (e) {
@@ -60,6 +64,12 @@ const formatDate = () => {
   const date = new Date()
   return `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`
 }
+
+onUnmounted(() => {
+  if (typeof window !== 'undefined') {
+    document.body.style.overflow = ''
+  }
+})
 </script>
 
 <template>
@@ -96,8 +106,7 @@ const formatDate = () => {
           </button>
           
           <button class="action-btn download" @click="handleDownload" :disabled="state.isGenerating">
-            <span v-if="state.isGenerating">生成中...</span>
-            <span v-else>保存为图片</span>
+            保存
           </button>
         </div>
       </div>
@@ -141,7 +150,6 @@ const formatDate = () => {
   box-shadow: 0 20px 40px rgba(0,0,0,0.2);
   font-family: var(--vp-font-family-base);
   color: var(--vp-c-text-1);
-  border: 1px solid var(--vp-c-divider);
 }
 
 .card-content {
@@ -153,7 +161,7 @@ const formatDate = () => {
 
 .card-title {
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.3;
   margin: 0 0 10px 0;
   color: var(--vp-c-text-1);
@@ -236,11 +244,6 @@ const formatDate = () => {
 .action-btn.download {
   background: var(--vp-c-brand-1);
   color: white;
-}
-
-.action-btn.download:hover {
-  background: var(--vp-c-brand-2);
-  transform: translateY(-2px);
 }
 
 .action-btn.cancel {
