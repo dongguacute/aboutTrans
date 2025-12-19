@@ -25,6 +25,19 @@ const injectButtonToH2 = (h2: HTMLHeadingElement) => {
   const handleShare = () => {
     // Clone and remove children to get text only
     const clone = h2.cloneNode(true) as HTMLElement
+    
+    // Extract badges
+    const tags: Array<{ text: string, type: string }> = []
+    const badges = clone.querySelectorAll('.VPBadge')
+    badges.forEach(badge => {
+      const type = Array.from(badge.classList).find(c => ['info', 'tip', 'warning', 'danger'].includes(c)) || 'info'
+      tags.push({
+        text: (badge as HTMLElement).innerText,
+        type
+      })
+      badge.remove()
+    })
+
     const childBtns = clone.querySelectorAll('.share-btn-injected, .header-anchor')
     childBtns.forEach(el => el.remove())
     const title = clone.innerText.trim()
@@ -55,7 +68,7 @@ const injectButtonToH2 = (h2: HTMLHeadingElement) => {
     
     const url = window.location.origin + window.location.pathname + '#' + h2.id
     
-    openShare(title, content, url)
+    openShare(title, content, url, tags)
   }
 
   // Mount the Share Button Component

@@ -6,6 +6,7 @@ interface ShareState {
   content: string
   url: string
   note?: string
+  tags?: Array<{ text: string, type: string }>
 }
 
 export const shareState = reactive<ShareState>({
@@ -13,14 +14,16 @@ export const shareState = reactive<ShareState>({
   title: '',
   content: '',
   url: '',
-  note: ''
+  note: '',
+  tags: []
 })
 
-export function openShare(title: string, content: string, url: string, note: string = '') {
+export function openShare(title: string, content: string, url: string, tags: Array<{ text: string, type: string }> = [], note: string = '') {
   shareState.title = title
   shareState.content = content
   shareState.url = url
   shareState.note = note
+  shareState.tags = tags
   shareState.isOpen = true
 }
 
